@@ -1,6 +1,8 @@
 # CUPED
 Implementation of Microsoft's CUPED Algorithm with a bash interface to quickly process CSV files
+
 Controlled-experiment Using Pre-Existing Data (CUPED) is a variance reduction technique created by Microsoft in 2013.
+
 
 Usage:
 
