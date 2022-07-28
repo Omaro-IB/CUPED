@@ -31,9 +31,9 @@ if len(arguments) == 1 or arguments[1].lower() == "help" or arguments[1] == "?" 
     exit(0)
 
 
-#check for bad number of arguments
+# check for bad number of arguments
 if len(arguments) != 5:
-    if (len(arguments) != 6 or not show):
+    if len(arguments) != 6 or not show:
         print("Bad number of arguments")
         print("""Usage: python CUPED-P.py [CSV Directory] [Pre-Treatment Column] [Post-Treatment Column] [Binary Column] (options)
         Options: -s or --show: show the distribution graph in your browser""")
@@ -58,11 +58,11 @@ except KeyError:
 except PatsyError:
     print("Bad pre/post column name, please check your input and your CSV file")
     exit(1)
-except:
-    print("Unexpected Error")
+except Exception as ex:
+    print("Unexpected Error {}".format(ex))
     exit(1)
-    
 
+    
 print("Average Treatment Effect Before CUPED {}".format(ATE))
 print("Average Treatment Effect After CUPED {}".format(ATE_CUPED))
 
