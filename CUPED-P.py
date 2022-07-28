@@ -2,7 +2,7 @@
 Summary: CUPED implementation with CSVs
 Requirements: a CSV file with one column for the pre-treatment, another for the post-treatment, and one binary column
 with 1s and 0s (1 for received treatment and 0 for control)
-Usage: python ProcessCUPED.py [CSV Directory] [Pre-Treatment Column] [Post-Treatment Column] [Binary Column] (options)
+Usage: python CUPED-P.py [CSV Directory] [Pre-Treatment Column] [Post-Treatment Column] [Binary Column] (options)
     Options: -s or --show: show the distribution graph in your browser
 """
 
@@ -26,17 +26,17 @@ if len(arguments) > 4:
 
 # Check for help
 if len(arguments) == 1 or arguments[1].lower() == "help" or arguments[1] == "?" or arguments[1].lower() == "-h":
-    print("""Usage: python ProcessCUPED.py [CSV Directory] [Pre-Treatment Column] [Post-Treatment Column] [Binary Column] (options)
+    print("""Usage: python CUPED-P.py [CSV Directory] [Pre-Treatment Column] [Post-Treatment Column] [Binary Column] (options)
     Options: -s or --show: show the distribution graph in your browser""")
     exit(0)
 
 
 #check for bad number of arguments
 if len(arguments) != 5:
-    if not (show and arguments == 6):
+    if (len(arguments) != 6 or not show):
         print("Bad number of arguments")
-        print("""Usage: python ProcessCUPED.py [CSV Directory] [Pre-Treatment Column] [Post-Treatment Column] [Binary Column] (options)
-    Options: -s or --show: show the distribution graph in your browser""")
+        print("""Usage: python CUPED-P.py [CSV Directory] [Pre-Treatment Column] [Post-Treatment Column] [Binary Column] (options)
+        Options: -s or --show: show the distribution graph in your browser""")
         exit(1)
             
 
