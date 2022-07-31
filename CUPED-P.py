@@ -42,7 +42,7 @@ if len(arguments) != 5:
 
 # Run the program
 try:
-    ATE, ATE_CUPED, Variance, Variance_CUPED = CUPED.CUPED_csv(arguments[1], arguments[2], arguments[3], arguments[4], show=show)
+    ATE, ATE_CUPED, Variance, Variance_CUPED, percChangeReg, percChangeCUPED = CUPED.CUPED_csv(arguments[1], arguments[2], arguments[3], arguments[4], show=show)
 except PermissionError:
     print("Permission Error for Directory {}\nPlease check your inputted directory or perhaps the _CUPED.csv file is open".format(arguments[1]))
     exit(1)
@@ -63,10 +63,13 @@ except Exception as ex:
     exit(1)
 
     
-print("Average Treatment Effect Before CUPED {}".format(ATE))
-print("Average Treatment Effect After CUPED {}".format(ATE_CUPED))
+print("Average Treatment Effect Before CUPED: {}".format(ATE))
+print("Average Treatment Effect After CUPED: {}".format(ATE_CUPED))
 
-print("Variance Before CUPED {}".format(Variance))
-print("Variance After CUPED {}".format(Variance_CUPED))
+print("Variance Before CUPED: {}".format(Variance))
+print("Variance After CUPED: {}".format(Variance_CUPED))
+
+print("Percentage Change (Control to Treatment) Before CUPED: {}%".format(round(percChangeReg*100,2)))
+print("Percentage Change (Control to Treatment) After CUPED: {}%".format(round(percChangeCUPED*100,2)))
 
 exit(0)

@@ -29,9 +29,9 @@ def CUPED_csv(dir_, before_col, after_col, binary_col, show=False):
     @return: floats; ATE before, ATE after, Variance before, Variance after
     """
     df = pd.read_csv(dir_)
-    df2, ATE, ATE_CUPED, Variance, Variance_CUPED = CUPED(df, before_col, after_col, binary_col, show=show)
+    df2, ATE, ATE_CUPED, Variance, Variance_CUPED, percChangeReg, percChangeCUPED = CUPED(df, before_col, after_col, binary_col, show=show)
     df2.to_csv(dir_[:-4]+"_CUPED.csv")
-    return ATE, ATE_CUPED, Variance, Variance_CUPED
+    return ATE, ATE_CUPED, Variance, Variance_CUPED, percChangeReg, percChangeCUPED
 
 
 def CUPED(df, before_col, after_col, binary_col, show=False):
@@ -78,12 +78,20 @@ def CUPED(df, before_col, after_col, binary_col, show=False):
 
     # display the distribution graphs
     if show:
-        fig = px.histogram(df, x=before_col, y=after_col, hover_data=df.columns)
-        fig2 = px.histogram(df, x=before_col, y=cuped_col, hover_data=df.columns)
-        fig.show()
-        fig2.show()
+        pre_cuped_fig = px.histogram(df, x=after_col, labels={after_col: "Pre-CUPED"}, color=binary_col)
+        post_cuped_fig = px.histogram(df, x=cuped_col, labels={cuped_col: "Post-CUPED"}, color=binary_col)
+        pre_cuped_fig.show()
+        post_cuped_fig.show()
 
     variances = df.var()
 
+    cuped_treatment_only = df.loc[df[binary_col] == 1, cuped_col]
+    cuped_control_only = df.loc[df[binary_col] == 0, cuped_col]
+    reg_treatment_only = df.loc[df[binary_col] == 1, after_col]
+    reg_control_only = df.loc[df[binary_col] == 0, after_col]
+
+    percChangeReg = (sum(reg_treatment_only) / sum(reg_control_only)) - 1
+    percChangeCUPED = (sum(cuped_treatment_only) / sum(cuped_control_only)) - 1
+
     return df, Average_Treatment_Effect(df, after_col, treatment_indices, control_indices), Average_Treatment_Effect(df, cuped_col, treatment_indices, control_indices),\
-        variances["post_val"], variances["post_val_cuped"]
+        variances["post_val"], variances["post_val_cuped"], percChangeReg, percChangeCUPED
