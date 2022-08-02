@@ -57,8 +57,8 @@ def CUPED(df, before_col, after_col, binary_col, show=False):
     half = len(treatment_indices) // 2  # split the treatment into 2- one for E[x] and the other for Y_t bar
     expected_x_sample_indices = treatment_indices[:half]
     y_t_bar_sample_indices = treatment_indices[half:]
-    expected_x_sample = list(df.iloc[expected_x_sample_indices]["pre_val"])
-    y_t_bar_sample = list(df.iloc[y_t_bar_sample_indices]["post_val"])
+    expected_x_sample = list(df.iloc[expected_x_sample_indices][before_col])
+    y_t_bar_sample = list(df.iloc[y_t_bar_sample_indices][after_col])
 
 
     # E[x] & Y_t bar
@@ -67,7 +67,7 @@ def CUPED(df, before_col, after_col, binary_col, show=False):
 
 
     # X_t bar
-    x_t_bar_sample = list(df.iloc[treatment_indices]["pre_val"])
+    x_t_bar_sample = list(df.iloc[treatment_indices][before_col])
     x_t_bar = sum(x_t_bar_sample) / len(x_t_bar_sample)
 
 
@@ -94,4 +94,4 @@ def CUPED(df, before_col, after_col, binary_col, show=False):
     percChangeCUPED = (sum(cuped_treatment_only) / sum(cuped_control_only)) - 1
 
     return df, Average_Treatment_Effect(df, after_col, treatment_indices, control_indices), Average_Treatment_Effect(df, cuped_col, treatment_indices, control_indices),\
-        variances["post_val"], variances["post_val_cuped"], percChangeReg, percChangeCUPED
+        variances[after_col], variances[after_col+"_cuped"], percChangeReg, percChangeCUPED

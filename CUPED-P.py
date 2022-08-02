@@ -5,6 +5,7 @@ with 1s and 0s (1 for received treatment and 0 for control)
 Usage: python CUPED-P.py [CSV Directory] [Pre-Treatment Column] [Post-Treatment Column] [Binary Column] (options)
     Options: -s or --show: show the distribution graph in your browser
 """
+import traceback
 
 import CUPED
 import sys
@@ -52,8 +53,8 @@ except pandas.errors.EmptyDataError:
 except FileNotFoundError:
     print("File {} not found".format(arguments[1]))
     exit(1)
-except KeyError:
-    print("Bad binary column name, please check your input and your CSV file")
+except KeyError as ex:
+    print("Bad binary column name")
     exit(1)
 except PatsyError:
     print("Bad pre/post column name, please check your input and your CSV file")
@@ -69,7 +70,7 @@ print("Average Treatment Effect After CUPED: {}".format(ATE_CUPED))
 print("Variance Before CUPED: {}".format(Variance))
 print("Variance After CUPED: {}".format(Variance_CUPED))
 
-print("Percentage Change (Control to Treatment) Before CUPED: {}%".format(round(percChangeReg*100,2)))
-print("Percentage Change (Control to Treatment) After CUPED: {}%".format(round(percChangeCUPED*100,2)))
+print("Percentage Change (Control to Treatment) Before CUPED: {}%".format(round(percChangeReg*100, 2)))
+print("Percentage Change (Control to Treatment) After CUPED: {}%".format(round(percChangeCUPED*100, 2)))
 
 exit(0)
